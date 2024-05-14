@@ -1,4 +1,5 @@
 import pyglet
+from math import sin, cos
 
 window = pyglet.window.Window(width=1280, height=720, caption="Hello Pyglet")
 window.set_location(x=400, y=200)
@@ -14,13 +15,23 @@ rectangle.anchor_position = (100, 100) # this is relative to the rectangle' x, y
 
 star = pyglet.shapes.Star(x=1000, y=300, outer_radius=60, inner_radius=40, num_spikes=8, color=(255, 255, 0), batch=batch)
 
+
+
 @window.event
 def on_draw():
   window.clear()
   batch.draw()
 
-def update(dt):
-  rectangle.rotation += 1
+value = 0
 
+def update(dt):
+  global value
+  value += 0.05
+  circle.radius += sin(value)
+  rectangle.rotation += 1
+  star.rotation += 2
+
+  star.x += cos(value) * 8
+  star.y += sin(value) * 8
 pyglet.clock.schedule_interval(update, 1/60)
 pyglet.app.run()
